@@ -59,10 +59,26 @@ def validate(req_str):
         return 500  # HTTP 500 Internal Server Error
 
 def main():
-    path_2_req = sys.argv[1]
+    try:
+        # getting the request
+        path_2_req = sys.argv[1]
+        r_req = read_request(path_2_req)
 
-    r_req = read_request(path_2_req)
-
-    print(validate(r_req))
+        # validating the request
+        valid_code = validate(r_req)
+    except:
+        valid_code = 500
+        
+    # print output based on valid_code
+    if valid_code == 400:
+        print("HTTP/1.1 400 Bad Request")
+    elif valid_code == 405:
+        print("HTTP/1.1 405 Method Not Allowed")
+    elif valid_code == 505:
+        print("HTTP/1.1 505 HTTP Version Not Supported")
+    elif valid_code == 200:
+        print("HTTP/1.1 200 OK")
+    else:
+        print("HTTP/1.1 500 Internal Server Error")
 
 main()
