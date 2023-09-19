@@ -3,10 +3,42 @@ import re
 
 methods = ["GET", "POST", "PUT", "DELETE", "HEAD"]
 httpVersions = ["HTTP/1.1", "HTTP/1.0"]
+schemes = ["http", "https", "ftp", "tcp"]
+reserved = [";", "/", ":", "@", "&", "=", "+", "$", ","]
 
 def read_request(path):
     with open(path, 'r') as file:
         return file.read()
+
+def is_valid_uri(uri):
+    # Check for "*" form
+    if uri == "*":
+        return True
+    
+    # Check for absolute URI form
+    if any(uri.startswith(scheme + "://") for scheme in schemes):
+        # Extract authority and path
+        parts = uri.split("://", 1)[1].split("/", 1)
+        authority = parts[0]
+        path = "/" + parts[1] if len(parts) > 1 else "/"
+        # Validate authority and path
+        if not re.match(r'^[a-zA-Z0-9-._~:]*$', authority):
+            return False
+        if not all(c.isalnum() or c in reserved for c in path):
+            return False
+        return True
+    
+    # Check for abs_path form
+    if uri.startswith("/"):
+        if not all(c.isalnum() or c in reserved for c in uri):
+            return False
+        return True
+    
+    # Check for authority form
+    if re.match(r'^[a-zA-Z0-9-._~:]*$', uri):
+        return True
+    
+    return False
 
 def validate(req_str):
     try:
@@ -38,6 +70,10 @@ def validate(req_str):
         if version not in httpVersions:
             return 505
         
+        # check uri
+        if is_valid_uri(uri) == False:
+            return 400
+
         # check headers
         for line in normalized_lines:
             if ':' not in line:
@@ -48,15 +84,15 @@ def validate(req_str):
                 if char.isspace():
                     return 400
 
-        # check body
-        
-
         return 200
     
     # server error
     except Exception as e:
         print(f"Exception: {e}")
         return 500  # HTTP 500 Internal Server Error
+
+
+
 
 def main():
     try:
