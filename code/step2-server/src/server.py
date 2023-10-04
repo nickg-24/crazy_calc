@@ -14,12 +14,13 @@ DOCUMENT_ROOT = "../www"
 def handle_client(client_socket):
     request = client_socket.recv(1024).decode()
     # checks if the resquest is sytactically valid
+    print("this is the request:\r\n" ,request)
     req_syntax_code = parser_1.validate(request)
 
     print('Response would be:',req_syntax_code)
 
-    # if parser code was 200, proceed
-    if req_syntax_code[0] == 200:
+    # if parser code was 200 and its a tuple, proceed
+    if isinstance(req_syntax_code, tuple) and req_syntax_code[0] == 200:
         # now handle method specific actions
         # get required info from the parser
         method = req_syntax_code[1]
@@ -49,7 +50,7 @@ def handle_client(client_socket):
 # handles get requests
 def get_req(uri):
     # handle document route
-    
+
     # check if file exists
 
     print("foo")

@@ -4,7 +4,7 @@ import re
 methods = ["GET", "POST", "PUT", "DELETE", "HEAD"]
 httpVersions = ["HTTP/1.1", "HTTP/1.0"]
 schemes = ["http", "https", "ftp", "tcp"]
-reserved = [";", "/", ":", "@", "&", "=", "+", "$", ",", "."]
+reserved = [";", "/", ":", "@", "&", "=", "+", "$", ",", ".", "-", "_"]
 
 def read_request(path):
     with open(path, 'r') as file:
@@ -123,4 +123,5 @@ def main():
         print(f"Status Code: {status_code}")
         print("HTTP/1.1 500 Internal Server Error")
 
-main()
+if __name__ == '__main__':
+    main()
