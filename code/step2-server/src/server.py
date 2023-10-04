@@ -11,6 +11,7 @@ httpVersions = ["HTTP/1.1", "HTTP/1.0"]
 schemes = ["http", "https"]
 DOCUMENT_ROOT = "../www"
 
+# recieves request and sends response to client
 def handle_client(client_socket):
     request = client_socket.recv(1024).decode()
     # checks if the resquest is sytactically valid
@@ -27,7 +28,7 @@ def handle_client(client_socket):
         uri = req_syntax_code[2]
 
         if method == "GET":
-            print("do get stuff")
+            content, status_code = get_req(uri)
         elif method == "POST":
             print("do post stuff")
         elif method == "PUT":
@@ -46,14 +47,28 @@ def handle_client(client_socket):
     client_socket.send("connection closing".encode())
     client_socket.close()
 
+# given a file path, returns the contents of the file
+def file_read(file_path):
+    with open(file_path, 'r') as file:
+        return file.read()
     
-# handles get requests
+
+    
+# handles get requests, returns a tuple (response, status code)
 def get_req(uri):
     # handle document route
+    sys_path = DOCUMENT_ROOT + uri
 
     # check if file exists
+    if os.path.isfile(sys_path):
+        print(f'{sys_path} exists')
+        # return file contents and status code
+        return file_read(sys_path), 200
+    else:
+        # return 404 file not found
+        print(f'{sys_path} does not exist')
+        return "", 404
 
-    print("foo")
 
 # handles post requests
 def post_req(uri, body):
