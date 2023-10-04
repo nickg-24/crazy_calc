@@ -4,10 +4,12 @@ import socket
 import ssl
 import threading
 import parser_1 # for the parser function
+import os
 
 methods = ["GET", "POST", "PUT", "DELETE"]
 httpVersions = ["HTTP/1.1", "HTTP/1.0"]
 schemes = ["http", "https"]
+DOCUMENT_ROOT = "../www"
 
 def handle_client(client_socket):
     request = client_socket.recv(1024).decode()
@@ -45,22 +47,27 @@ def handle_client(client_socket):
 
     
 # handles get requests
-def get_req():
+def get_req(uri):
+    # handle document route
+    
+    # check if file exists
+
     print("foo")
 
 # handles post requests
-def post_req():
+def post_req(uri, body):
     print("foo")
 
 # handles put requests
-def put_req():
+def put_req(uri, body):
     print("foo")
 
-def delete_req():
+def delete_req(uri):
     print("foo")
 
-
-    
+#takes output of method and nicely formats it to send back to client
+def format_response():
+    print("foo")
 
 def main():
     ip_addr = sys.argv[1]

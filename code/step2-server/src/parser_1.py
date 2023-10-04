@@ -4,7 +4,7 @@ import re
 methods = ["GET", "POST", "PUT", "DELETE", "HEAD"]
 httpVersions = ["HTTP/1.1", "HTTP/1.0"]
 schemes = ["http", "https", "ftp", "tcp"]
-reserved = [";", "/", ":", "@", "&", "=", "+", "$", ","]
+reserved = [";", "/", ":", "@", "&", "=", "+", "$", ",", "."]
 
 def read_request(path):
     with open(path, 'r') as file:
@@ -102,20 +102,25 @@ def main():
         r_req = read_request(path_2_req)
 
         # validating the request
-        valid_code = validate(r_req)
+        valid_result = validate(r_req)
+        if isinstance(valid_result, tuple) and len(valid_result) == 3:
+            status_code, method, uri = valid_result
+        else:
+            status_code = valid_result
     except:
-        valid_code = 500
+        status_code = 500
         
-    # print output based on valid_code
-    if valid_code == 400:
+    # print output based on status_code
+    if status_code == 400:
         print("HTTP/1.1 400 Bad Request")
-    elif valid_code == 405:
+    elif status_code == 405:
         print("HTTP/1.1 405 Method Not Allowed")
-    elif valid_code == 505:
+    elif status_code == 505:
         print("HTTP/1.1 505 HTTP Version Not Supported")
-    elif valid_code == 200:
+    elif status_code == 200:
         print("HTTP/1.1 200 OK")
     else:
+        print(f"Status Code: {status_code}")
         print("HTTP/1.1 500 Internal Server Error")
 
 main()
