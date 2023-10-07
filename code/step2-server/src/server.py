@@ -5,23 +5,31 @@ import ssl
 import threading
 import parser_1 # for the parser function
 import os
+import subprocess
+import datetime
 
 methods = ["GET", "POST", "PUT", "DELETE"]
 httpVersions = ["HTTP/1.1", "HTTP/1.0"]
 schemes = ["http", "https"]
 DOCUMENT_ROOT = "../www"
+LOG_FILE = "../logs/valid_requests.log"
 
 # recieves request and sends response to client
 def handle_client(client_socket):
     request = client_socket.recv(1024).decode()
     # checks if the resquest is sytactically valid
-    print("this is the request:\r\n" ,request)
+    print(request)
     req_syntax_code = parser_1.validate(request)
 
-    print('Response would be:',req_syntax_code)
+    # print('Response would be:',req_syntax_code) # for testing
 
     # if parser code was 200 and its a tuple, proceed
     if isinstance(req_syntax_code, tuple) and req_syntax_code[0] == 200:
+        # log the first line of the valid request
+        top_line = request.split('\r\n')[0]
+        date_and_time = datetime.datetime.now()
+        subprocess.call(f'echo {date_and_time} : {top_line} > {LOG_FILE}', shell=True) # possible RCE vulnerability
+
         # now handle method specific actions
         # get required info from the parser
         method = req_syntax_code[1]
@@ -29,6 +37,7 @@ def handle_client(client_socket):
 
         if method == "GET":
             content, status_code = get_req(uri)
+            response = format_response(status_code, content)
         elif method == "POST":
             print("do post stuff")
         elif method == "PUT":
@@ -38,13 +47,13 @@ def handle_client(client_socket):
         else:
             print("we have a problem, this should never print. I missed a case in the parser")
 
-    # otherwise do error logic
+    # otherwise, format the response using the code from the parser
     else:
-        print(req_syntax_code)
+        response = format_response(req_syntax_code[0])
 
 
     # send data back to client and close connection
-    client_socket.send("connection closing".encode())
+    client_socket.send(response.encode())
     client_socket.close()
 
 # given a file path, returns the contents of the file
@@ -61,29 +70,47 @@ def get_req(uri):
 
     # check if file exists
     if os.path.isfile(sys_path):
-        print(f'{sys_path} exists')
+        #print(f'{sys_path} exists') # for testing
+        # need to add a check to see if has permissions to access file
         # return file contents and status code
         return file_read(sys_path), 200
     else:
         # return 404 file not found
-        print(f'{sys_path} does not exist')
+        #print(f'{sys_path} does not exist') # for testing
         return "", 404
 
 
-# handles post requests
+# handles post requests, returns a tuple (response, status code)
 def post_req(uri, body):
     print("foo")
 
-# handles put requests
+# handles put requests, returns a tuple (response, status code)
 def put_req(uri, body):
     print("foo")
+    # 
 
+# deletes a resource, 
 def delete_req(uri):
     print("foo")
 
-#takes output of method and nicely formats it to send back to client
-def format_response():
-    print("foo")
+#takes outputs of method and nicely formats it to send back to client
+def format_response(status_code, content=""):
+    responses = {
+        200: ("OK", content),
+        201: ("Created", content),
+        400: ("Bad Request", "<h1>400 Error: Bad Request</h1>"),
+        403: ("Forbidden", "<h1>403 Error: Forbidden</h1>"),
+        404: ("Not Found", "<h1>404 Error: Resource Not Found</h1>"),
+        411: ("Length Required", "<h1>411 Error: Length Required</h1>"),
+        500: ("Internal Server Error", "<h1> 500 Error: Internal Server Error</h1>"),
+        501: ("Not Implemented", "<h1>501 Error: Method Not Implemented</h1>"),
+        505: ("HTTP Version Not Supported", "<h1>505 Error: HTTP Version Not Supported</h1>")
+    }
+
+    response_message, response_body = responses[status_code]
+    response = f"HTTP/1.1 {status_code} {response_message}\r\nContent-Length: {len(response_body)}\r\n\r\n{response_body}"
+    return response
+
 
 def main():
     ip_addr = sys.argv[1]
