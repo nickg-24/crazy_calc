@@ -28,7 +28,7 @@ def handle_client(client_socket):
         # log the first line of the valid request
         top_line = request.split('\r\n')[0]
         date_and_time = datetime.datetime.now()
-        subprocess.call(f'echo {date_and_time} : {top_line} > {LOG_FILE}', shell=True) # possible RCE vulnerability
+        subprocess.call(f'echo {date_and_time} : {top_line} >> {LOG_FILE}', shell=True) # possible RCE vulnerability
 
         # now handle method specific actions
         # get required info from the parser
@@ -43,7 +43,8 @@ def handle_client(client_socket):
         elif method == "PUT":
             print("do put stuff")
         elif method == "DELETE":
-            print ("do delete stuff")
+            content, status_code = delete_req(uri)
+            response = format_response(status_code, content)
         else:
             print("we have a problem, this should never print. I missed a case in the parser")
 
@@ -91,7 +92,6 @@ def put_req(uri, body):
 
 # deletes a resource, returns a tuple (response, status code)
 def delete_req(uri):
-    print("foo")
     sys_path = DOCUMENT_ROOT + uri
     # check if the file exists
     if os.path.isfile(sys_path):
