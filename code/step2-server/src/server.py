@@ -83,12 +83,14 @@ def get_req(uri):
 
 # handles post requests, returns a tuple (response, status code)
 def post_req(uri, body):
+    # 
     print("foo")
 
 # handles put requests, returns a tuple (response, status code)
+# create file at uri, contents of body. will overwrite existing files
 def put_req(uri, body):
     print("foo")
-    # 
+    #
 
 # deletes a resource, returns a tuple (response, status code)
 def delete_req(uri):
