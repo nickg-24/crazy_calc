@@ -89,9 +89,21 @@ def put_req(uri, body):
     print("foo")
     # 
 
-# deletes a resource, 
+# deletes a resource, returns a tuple (response, status code)
 def delete_req(uri):
     print("foo")
+    sys_path = DOCUMENT_ROOT + uri
+    # check if the file exists
+    if os.path.isfile(sys_path):
+       #delete it
+       os.remove(sys_path)
+       return "", 200
+    else:
+        # return 404 file not found
+        #print(f'{sys_path} does not exist') # for testing
+        return "", 404
+
+    # if it does not e
 
 #takes outputs of method and nicely formats it to send back to client
 def format_response(status_code, content=""):
