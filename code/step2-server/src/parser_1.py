@@ -85,7 +85,7 @@ def validate(req_str):
                     return 400
 
         # return status code 200, the method, and the uri
-        return 200, method, uri
+        return 200, method, uri, body
     
     # server error
     except Exception as e:

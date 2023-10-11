@@ -34,14 +34,19 @@ def handle_client(client_socket):
         # get required info from the parser
         method = req_syntax_code[1]
         uri = req_syntax_code[2]
+        body = req_syntax_code[3] if len(req_syntax_code) > 3 else None
+
 
         if method == "GET":
             content, status_code = get_req(uri)
             response = format_response(status_code, content)
         elif method == "POST":
-            print("do post stuff")
+            content, status_code = post_req(uri, body)
+            response = format_response(status_code, content)
         elif method == "PUT":
-            print("do put stuff")
+            status_code = put_req(uri, body)
+            response = format_response(status_code)
+
         elif method == "DELETE":
             content, status_code = delete_req(uri)
             response = format_response(status_code, content)
@@ -69,10 +74,8 @@ def get_req(uri):
     # separate the path from the query string
     parts = uri.split("?", 1)
     path = parts[0]
-    query = parts[1] if len(parts) > 1 else None
-    print("QUERY:", query)
-
-
+    params= parts[1] if len(parts) > 1 else None
+    print("GET PARAMS:", params)
     
     # handle document route
     sys_path = DOCUMENT_ROOT + path
@@ -84,17 +87,52 @@ def get_req(uri):
         return "", 404
 
 
-
 # handles post requests, returns a tuple (response, status code)
 def post_req(uri, body):
-    # check 
-    print("foo")
+    # separate the path from the query string
+    path = uri.split("?")[0]
+
+    # handle document route
+    sys_path = DOCUMENT_ROOT + path
+
+    # check if the file exists
+    if os.path.isfile(sys_path):
+        content = file_read(sys_path)
+        status_code = 200
+
+        # print("POST request body:", body)
+
+        return content, status_code
+
+    else:
+        return "", 404
+
+
+
 
 # handles put requests, returns a tuple (response, status code)
 # create file at uri, contents of body. will overwrite existing files
 def put_req(uri, body):
-    print("foo")
-    #
+    sys_path = DOCUMENT_ROOT + uri
+    # check if the file exists
+    if os.path.isfile(sys_path):
+        try:
+            # overwrite the content
+            with open(sys_path, 'w') as file:
+                file.write(body)
+            return 200
+        except:
+            return 500
+    else:
+        try:
+            # create new file, contains the body
+            with open(sys_path, 'w') as file:
+                file.write(body)
+            return 201
+        except:
+            return 500
+
+    
 
 # deletes a resource, returns a tuple (response, status code)
 def delete_req(uri):
