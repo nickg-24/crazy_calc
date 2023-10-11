@@ -66,24 +66,28 @@ def file_read(file_path):
     
 # handles get requests, returns a tuple (response, status code)
 def get_req(uri):
+    # separate the path from the query string
+    parts = uri.split("?", 1)
+    path = parts[0]
+    query = parts[1] if len(parts) > 1 else None
+    print("QUERY:", query)
+
+
+    
     # handle document route
-    sys_path = DOCUMENT_ROOT + uri
+    sys_path = DOCUMENT_ROOT + path
 
     # check if file exists
     if os.path.isfile(sys_path):
-        #print(f'{sys_path} exists') # for testing
-        # need to add a check to see if has permissions to access file
-        # return file contents and status code
         return file_read(sys_path), 200
     else:
-        # return 404 file not found
-        #print(f'{sys_path} does not exist') # for testing
         return "", 404
+
 
 
 # handles post requests, returns a tuple (response, status code)
 def post_req(uri, body):
-    # 
+    # check 
     print("foo")
 
 # handles put requests, returns a tuple (response, status code)
@@ -105,7 +109,6 @@ def delete_req(uri):
         #print(f'{sys_path} does not exist') # for testing
         return "", 404
 
-    # if it does not e
 
 #takes outputs of method and nicely formats it to send back to client
 def format_response(status_code, content=""):
