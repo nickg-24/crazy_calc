@@ -16,6 +16,8 @@ LOG_FILE = "../logs/valid_requests.log"
 
 # recieves request and sends response to client
 def handle_client(client_socket):
+    # try to handle the client request
+    # try:
     request = client_socket.recv(1024).decode()
     # checks if the resquest is sytactically valid
     print(request)
@@ -44,9 +46,8 @@ def handle_client(client_socket):
             content, status_code = post_req(uri, body)
             response = format_response(status_code, content)
         elif method == "PUT":
-            status_code = put_req(uri, body)
-            response = format_response(status_code)
-
+            content, status_code = put_req(uri, body)
+            response = format_response(status_code, content, uri if status_code == 201 else None)
         elif method == "DELETE":
             status_code = delete_req(uri)
             response = format_response(status_code)
@@ -55,9 +56,11 @@ def handle_client(client_socket):
 
     # otherwise, format the response using the code from the parser
     else:
-        response = format_response(req_syntax_code[0])
-
-
+        pre_response = req_syntax_code[0] if isinstance(req_syntax_code, tuple) else req_syntax_code
+        response = format_response(pre_response)
+    # something broke, 500 Internal Server Error
+    # except:
+    #     response = format_response(500)
     # send data back to client and close connection
     client_socket.send(response.encode())
     client_socket.close()
@@ -117,19 +120,18 @@ def put_req(uri, body):
             # overwrite the content
             with open(sys_path, 'w') as file:
                 file.write(body)
-            return 200
+            return file_read(sys_path), 200 # return content
         except:
-            return 500
+            return "", 500
     else:
         try:
             # create new file, contains the body
             with open(sys_path, 'w') as file:
                 file.write(body)
-            return 201
+            return file_read(sys_path), 201 # return content
         except:
-            return 500
+            return "", 500
 
-    
 
 # deletes a resource, returns a tuple (response, status code)
 def delete_req(uri):
@@ -146,7 +148,7 @@ def delete_req(uri):
 
 
 #takes outputs of method and nicely formats it to send back to client
-def format_response(status_code, content=""):
+def format_response(status_code, content="", location=None):
     responses = {
         200: ("OK", content),
         201: ("Created", content),
@@ -160,8 +162,15 @@ def format_response(status_code, content=""):
     }
 
     response_message, response_body = responses[status_code]
-    response = f"HTTP/1.1 {status_code} {response_message}\r\nContent-Length: {len(response_body)}\r\n\r\n{response_body}"
-    return response
+    response_headers = [
+        f"HTTP/1.1 {status_code} {response_message}",
+        f"Content-Length: {len(response_body)}"
+    ]
+
+    if location:
+        response_headers.append(f"Location: {location}")
+    
+    return "\r\n".join(response_headers) + "\r\n\r\n" + response_body
 
 
 def main():
