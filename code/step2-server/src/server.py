@@ -48,8 +48,8 @@ def handle_client(client_socket):
             response = format_response(status_code)
 
         elif method == "DELETE":
-            content, status_code = delete_req(uri)
-            response = format_response(status_code, content)
+            status_code = delete_req(uri)
+            response = format_response(status_code)
         else:
             print("we have a problem, this should never print. I missed a case in the parser")
 
@@ -90,7 +90,8 @@ def get_req(uri):
 # handles post requests, returns a tuple (response, status code)
 def post_req(uri, body):
     # separate the path from the query string
-    path = uri.split("?")[0]
+    parts = uri.split("?", 1)
+    path = parts[0]
 
     # handle document route
     sys_path = DOCUMENT_ROOT + path
@@ -99,11 +100,7 @@ def post_req(uri, body):
     if os.path.isfile(sys_path):
         content = file_read(sys_path)
         status_code = 200
-
-        # print("POST request body:", body)
-
         return content, status_code
-
     else:
         return "", 404
 
@@ -141,11 +138,11 @@ def delete_req(uri):
     if os.path.isfile(sys_path):
        #delete it
        os.remove(sys_path)
-       return "", 200
+       return 200
     else:
         # return 404 file not found
         #print(f'{sys_path} does not exist') # for testing
-        return "", 404
+        return 404
 
 
 #takes outputs of method and nicely formats it to send back to client
