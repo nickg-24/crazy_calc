@@ -45,3 +45,6 @@
 2023-10-12 11:51:18.326706 : PUT /postman-made.html HTTP/1.1
 2023-10-12 11:58:10.546929 : PUT /postman-made.html HTTP/1.1
 2023-10-12 11:59:55.999365 : PUT /postman-made.html HTTP/1.1
+2023-10-12 12:45:19.337427 : POST /hello-world.html HTTP/1.1
+2023-10-12 12:51:39.368336 : POST / HTTP/1.1
+2023-10-12 12:52:09.152768 : POST /hello-world.html HTTP/1.1

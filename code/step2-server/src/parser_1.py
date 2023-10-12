@@ -77,24 +77,27 @@ def validate(req_str):
         # flag to check for Content-Length
         has_content_length = False
 
+        # print("normalized_lines", normalized_lines) # testing
         # check headers
         for line in normalized_lines:
             if ':' not in line:
                 return 400
             head_name, head_value = line.split(':', 1)
 
+            # print("head_name", head_name) # testing
+            # print("head_value", head_value) # testing
             # check for Content-Length
             if head_name.strip().lower() == "content-length":
                 has_content_length = True
-
+                # print("has_content_length",has_content_length) # testing
 
             # check that head_name has no spaces
             for char in head_name:
                 if char.isspace():
                     return 400
-            # make sure that post requests have a content length set
-            if method == "POST" and not has_content_length:
-                return 411
+        # make sure that post requests have a content length set
+        if method == "POST" and not has_content_length:
+            return 411
         # return status code 200, the method, and the uri
         return 200, method, uri, body
     
@@ -131,7 +134,7 @@ def main():
     elif status_code == 200:
         print("HTTP/1.1 200 OK")
     elif status_code == 411:
-        print("HTTP/1.1 414 Content Length Required")
+        print("HTTP/1.1 411 Content Length Required")
     else:
         print(f"Status Code: {status_code}")
         print("HTTP/1.1 500 Internal Server Error")
