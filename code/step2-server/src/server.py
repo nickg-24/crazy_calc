@@ -75,7 +75,7 @@ def get_req(uri):
     parts = uri.split("?", 1)
     path = parts[0]
     params= parts[1] if len(parts) > 1 else None
-    print("GET PARAMS:", params)
+    # print("GET PARAMS:", params)
     
     # handle document route
     sys_path = DOCUMENT_ROOT + path
