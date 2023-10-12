@@ -13,54 +13,59 @@ httpVersions = ["HTTP/1.1", "HTTP/1.0"]
 schemes = ["http", "https"]
 DOCUMENT_ROOT = "../www"
 LOG_FILE = "../logs/valid_requests.log"
+ERROR_LOG = "../logs/internal_errors.log"
 
 # recieves request and sends response to client
 def handle_client(client_socket):
     # try to handle the client request
-    # try:
-    request = client_socket.recv(1024).decode()
-    # checks if the resquest is sytactically valid
-    print(request)
-    req_syntax_code = parser_1.validate(request)
+    try:
+        request = client_socket.recv(1024).decode()
+        # checks if the resquest is sytactically valid
+        print(request)
+        req_syntax_code = parser_1.validate(request)
 
-    # print('Response would be:',req_syntax_code) # for testing
+        # print('Response would be:',req_syntax_code) # for testing
 
-    # if parser code was 200 and its a tuple, proceed
-    if isinstance(req_syntax_code, tuple) and req_syntax_code[0] == 200:
-        # log the first line of the valid request
-        top_line = request.split('\r\n')[0]
-        date_and_time = datetime.datetime.now()
-        subprocess.call(f'echo {date_and_time} : {top_line} >> {LOG_FILE}', shell=True) # possible RCE vulnerability
+        # if parser code was 200 and its a tuple, proceed
+        if isinstance(req_syntax_code, tuple) and req_syntax_code[0] == 200:
+            # log the first line of the valid request
+            top_line = request.split('\r\n')[0]
+            date_and_time = datetime.datetime.now()
+            subprocess.call(f'echo {date_and_time} : {top_line} >> {LOG_FILE}', shell=True) # possible RCE vulnerability
 
-        # now handle method specific actions
-        # get required info from the parser
-        method = req_syntax_code[1]
-        uri = req_syntax_code[2]
-        body = req_syntax_code[3] if len(req_syntax_code) > 3 else None
+            # now handle method specific actions
+            # get required info from the parser
+            method = req_syntax_code[1]
+            uri = req_syntax_code[2]
+            body = req_syntax_code[3] if len(req_syntax_code) > 3 else None
 
 
-        if method == "GET":
-            content, status_code = get_req(uri)
-            response = format_response(status_code, content)
-        elif method == "POST":
-            content, status_code = post_req(uri, body)
-            response = format_response(status_code, content)
-        elif method == "PUT":
-            content, status_code = put_req(uri, body)
-            response = format_response(status_code, content, uri if status_code == 201 else None)
-        elif method == "DELETE":
-            status_code = delete_req(uri)
-            response = format_response(status_code)
+            if method == "GET":
+                content, status_code = get_req(uri)
+                response = format_response(status_code, content)
+            elif method == "POST":
+                content, status_code = post_req(uri, body)
+                response = format_response(status_code, content)
+            elif method == "PUT":
+                content, status_code = put_req(uri, body)
+                response = format_response(status_code, content, uri if status_code == 201 else None)
+            elif method == "DELETE":
+                status_code = delete_req(uri)
+                response = format_response(status_code)
+            else:
+                print("we have a problem, this should never print. I missed a case in the parser")
+
+        # otherwise, format the response using the code from the parser
         else:
-            print("we have a problem, this should never print. I missed a case in the parser")
-
-    # otherwise, format the response using the code from the parser
-    else:
-        pre_response = req_syntax_code[0] if isinstance(req_syntax_code, tuple) else req_syntax_code
-        response = format_response(pre_response)
+            pre_response = req_syntax_code[0] if isinstance(req_syntax_code, tuple) else req_syntax_code
+            response = format_response(pre_response)
     # something broke, 500 Internal Server Error
-    # except:
-    #     response = format_response(500)
+    except Exception as e:
+        # log to errors file
+        date_and_time = datetime.datetime.now()
+        subprocess.call(f'echo {date_and_time} : {e} >> {ERROR_LOG}\r\n\r\n', shell=True) # possible RCE vulnerability
+        
+        response = format_response(500)
     # send data back to client and close connection
     client_socket.send(response.encode())
     client_socket.close()
