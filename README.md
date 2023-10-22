@@ -2,7 +2,7 @@
 Please use this read me file for the information required to be submitted per the assignment on MyCourses.
 
 
-### To Do?
+### To Do
 - [ ] loop the recv so that all content is captured
+- [ ] add https
 - [ ] check content type for post
-- [ ] check user priv, session id? (this might be alot to do)
