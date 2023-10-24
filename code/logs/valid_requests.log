@@ -48,3 +48,10 @@
 2023-10-12 12:45:19.337427 : POST /hello-world.html HTTP/1.1
 2023-10-12 12:51:39.368336 : POST / HTTP/1.1
 2023-10-12 12:52:09.152768 : POST /hello-world.html HTTP/1.1
+2023-10-24 10:02:53.375730 : GET /hello-world.html HTTP/1.1
+2023-10-24 10:02:53.522326 : GET /favicon.ico HTTP/1.1
+2023-10-24 10:03:11.178750 : GET /second-file.html HTTP/1.1
+2023-10-24 10:27:14.822885 : GET /second-file.html HTTP/1.1
+2023-10-24 10:27:14.897305 : GET /favicon.ico HTTP/1.1
+2023-10-24 10:27:28.312699 : GET /second-file.html HTTP/1.1
+2023-10-24 10:27:47.664877 : GET /hello-world.html HTTP/1.1

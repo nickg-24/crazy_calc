@@ -193,38 +193,46 @@ def send_full_data(sock, data):
     while bytes_sent < len(data):
         bytes_sent += sock.send(data[bytes_sent:])
 
-
-
 def main():
+    if len(sys.argv) < 3:
+        print("Usage: server.py <ip> <port> [cert_path] [key_path]")
+        sys.exit(1)
+
     ip_addr = sys.argv[1]
     port = int(sys.argv[2])
+    print(f'{ip_addr}:{port}')  # debug comment
 
-    print(f'{ip_addr}:{port}') # debug comment
-
-    # if there are 5 args, then all args have been provided
-    is_https = len(sys.argv) == 5
-
-    # if cert and key are present, it is https
-    if is_https:
+    cert_path = None
+    pk_path = None
+    if len(sys.argv) >= 4:
         cert_path = sys.argv[3]
+    if len(sys.argv) == 5:
         pk_path = sys.argv[4]
-        print(f'\n {cert_path} \n {pk_path}') # debug comment
-    print("is https=" , is_https) # debug comment
+    elif len(sys.argv) == 4 and not pk_path:
+        print("Error: Cert path provided without private key path.")
+        sys.exit(1)
 
+    is_https = bool(cert_path and pk_path)
+    print("is https=", is_https)  # debug comment
 
-    # if its not https, open standard socket
-    if not is_https:
-        # listen on specified ip and port
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind((ip_addr, port))
-        s.listen(5)
-        while True:
-            client, address = s.accept()
-            client_handler = threading.Thread(target=handle_client, args=(client,))
-            client_handler.start()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((ip_addr, port))
+    s.listen(5)
 
-    # if it is https, open https socket
     if is_https:
-        print('do the same thing but will ssl')
-        print('work in progress')
+        context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+        context.load_cert_chain(certfile=cert_path, keyfile=pk_path)
+
+    while True:
+        client, address = s.accept()
+        if is_https:
+            try:
+                client = context.wrap_socket(client, server_side=True)
+            except ssl.SSLError:
+                print("SSL error occurred. Perhaps an HTTP client tried connecting to HTTPS server?")
+                client.close()
+                continue
+        client_handler = threading.Thread(target=handle_client, args=(client,))
+        client_handler.start()
+
 main()
