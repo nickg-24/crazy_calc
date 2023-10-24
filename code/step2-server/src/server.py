@@ -19,7 +19,7 @@ ERROR_LOG = "../logs/internal_errors.log"
 def handle_client(client_socket):
     # try to handle the client request
     try:
-        request = client_socket.recv(1024).decode()
+        request = receive_full_request(client_socket)
         # checks if the resquest is sytactically valid
         print(request)
         req_syntax_code = parser_1.validate(request)
@@ -67,7 +67,7 @@ def handle_client(client_socket):
         
         response = format_response(500)
     # send data back to client and close connection
-    client_socket.send(response.encode())
+    send_full_data(client_socket, response.encode())
     client_socket.close()
 
 # given a file path, returns the contents of the file
@@ -176,6 +176,23 @@ def format_response(status_code, content="", location=None):
         response_headers.append(f"Location: {location}")
     
     return "\r\n".join(response_headers) + "\r\n\r\n" + response_body
+
+# loops to make sure full request is recieved
+def receive_full_request(sock, buffer_size=1024):
+    data = b""
+    while True:
+        part = sock.recv(buffer_size)
+        data += part
+        if b"\r\n\r\n" in part or not part:
+            break
+    return data.decode()
+
+# loops to make sure full response is sent
+def send_full_data(sock, data):
+    bytes_sent = 0
+    while bytes_sent < len(data):
+        bytes_sent += sock.send(data[bytes_sent:])
+
 
 
 def main():
