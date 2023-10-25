@@ -31,7 +31,7 @@ def handle_client(client_socket):
             # log the first line of the valid request
             top_line = request.split('\r\n')[0]
             date_and_time = datetime.datetime.now()
-            subprocess.call(f'echo {date_and_time} : {top_line} >> {LOG_FILE}', shell=True) # possible RCE vulnerability
+            subprocess.call(f"echo '{date_and_time}' : '{top_line}' >> {LOG_FILE}", shell=True) # possible RCE vulnerability
 
             # now handle method specific actions
             # get required info from the parser
@@ -83,7 +83,7 @@ def get_req(uri):
     parts = uri.split("?", 1)
     path = parts[0]
     params= parts[1] if len(parts) > 1 else None
-    # print("GET PARAMS:", params)
+    print("GET PARAMS:", params)
     
     # handle document route
     sys_path = DOCUMENT_ROOT + path

@@ -55,3 +55,11 @@
 2023-10-24 10:27:14.897305 : GET /favicon.ico HTTP/1.1
 2023-10-24 10:27:28.312699 : GET /second-file.html HTTP/1.1
 2023-10-24 10:27:47.664877 : GET /hello-world.html HTTP/1.1
+2023-10-24 20:29:38.569804 : GET /hello-world.html HTTP/1.1
+2023-10-24 20:29:39.616166 : GET /favicon.ico HTTP/1.1
+2023-10-24 20:30:12.764398 : GET /hello-world.html HTTP/1.1
+2023-10-24 20:31:48.572010 : GET /hello-world.html?test=foo HTTP/1.1
+2023-10-24 20:33:56.827246 : GET /hello-world.html?test=foo HTTP/1.1
+2023-10-24 20:46:21.349263 : GET /hello-world.html?test=foo HTTP/1.1
+2023-10-24 20:55:32.876960 : GET /hello-world.html?test=foo HTTP/1.1
+2023-10-24 20:55:45.963031 : GET /hello-world.html?test=foo&test2=bar HTTP/1.1
