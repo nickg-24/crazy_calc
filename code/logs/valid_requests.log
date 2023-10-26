@@ -63,3 +63,4 @@
 2023-10-24 20:46:21.349263 : GET /hello-world.html?test=foo HTTP/1.1
 2023-10-24 20:55:32.876960 : GET /hello-world.html?test=foo HTTP/1.1
 2023-10-24 20:55:45.963031 : GET /hello-world.html?test=foo&test2=bar HTTP/1.1
+2023-10-24 21:34:10.663302 : POST /hello-world.html HTTP/1.1

@@ -235,4 +235,5 @@ def main():
         client_handler = threading.Thread(target=handle_client, args=(client,))
         client_handler.start()
 
-main()
+if __name__ == '__main__':
+    main()
