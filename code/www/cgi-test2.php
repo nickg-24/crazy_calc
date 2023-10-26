@@ -1,6 +1,6 @@
 <?php
     echo "Method: " . $_SERVER['REQUEST_METHOD'] . "\n";
-    echo "Script Name: " . $_SERVER['SCRIPT_NAME'] . "\n";
+    echo "Script Name: " . $_SERVER['SCRIPT_FILENAME'] . "\n";
     echo "Redirect Status: " . $_SERVER['REDIRECT_STATUS'] . "\n";
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
