@@ -27,13 +27,4 @@ GATEWAY_INTERFACE="CGI/1.1" \
 CONTENT_TYPE="application/x-www-form-urlencoded" \
 CONTENT_LENGTH="6" \
 echo "test=1" | php-cgi
-
-export REDIRECT_STATUS="0" \
-export SCRIPT_FILENAME="cgi-test2.php" \
-export REQUEST_METHOD="POST" \
-export GATEWAY_INTERFACE="CGI/1.1" \
-export CONTENT_TYPE="application/x-www-form-urlencoded" \
-export CONTENT_LENGTH="6" \
-echo "test=1" | php-cgi
-
 '''

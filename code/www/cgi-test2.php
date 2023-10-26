@@ -14,8 +14,5 @@
     }
 ?>
 
-<?php
-    echo "end of script";
-    exit;
-?>
+
 
