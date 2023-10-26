@@ -73,7 +73,10 @@ def execute_php(method: str, script_filename: str, query_string: str="", post_bo
 # for testing
 def main():
     
-    execute_php("GET","cgi-test2.php","<parameter1>=<value1>&<parameter2>=<value2>&[...]&<parameterN>=<valueN>")
+    execute_php("GET","../www/cgi-test2.php","<parameter1>=<value1>&<parameter2>=<value2>&<parameterN>=<valueN>")
+    print(os.system('pwd'))
+    print(os.system('ls ../www'))
+    print(os.system('find ../www/cgi-test2.php'))
 
 if __name__ == "__main__":
     main()
