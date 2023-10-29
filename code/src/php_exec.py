@@ -33,11 +33,14 @@ echo "test=1" | php-cgi
 
 # sets up the environment variables 
 def execute_php(method: str, script_filename: str, query_string: str="", post_body: str=""):
+    # gets absolute path of php script
+    script_path = os.path.abspath("../www/cgi-test2.php")
+
     # sets up GET env variables seen above
     if method == "GET":
         env = {
             'QUERY_STRING' : query_string,
-            'SCRIPT_FILENAME' : script_filename,
+            'SCRIPT_FILENAME' : script_path,
             'REQUEST_METHOD' : method,
             'REDIRECT_STATUS' : '0'
         }
@@ -45,7 +48,7 @@ def execute_php(method: str, script_filename: str, query_string: str="", post_bo
     if method == "POST":
         env = {
             'REDIRECT_STATUS' : '0',
-            'SCRIPT_FILENAME' : script_filename,
+            'SCRIPT_FILENAME' : script_path,
             'REQUEST_METHOD' : 'POST',
             'GATEWAY_INTERFACE' : 'CGI/1.1',
             'CONTENT_TYPE' : 'application/x-www-form-urlencoded'
@@ -72,8 +75,15 @@ def execute_php(method: str, script_filename: str, query_string: str="", post_bo
 
 # for testing
 def main():
-    
+    '''SOLUTION 1'''
+    # # get the abs path of the target script
+    # script_path = os.path.abspath("../www/cgi-test2.php")
+    # execute_php("GET",script_path,"<parameter1>=<value1>&<parameter2>=<value2>&<parameterN>=<valueN>")
+
+    '''SOLUTION 2'''
     execute_php("GET","../www/cgi-test2.php","<parameter1>=<value1>&<parameter2>=<value2>&<parameterN>=<valueN>")
+
+    # execute_php("GET","../www/cgi-test2.php","<parameter1>=<value1>&<parameter2>=<value2>&<parameterN>=<valueN>")
     print(os.system('pwd'))
     print(os.system('ls ../www'))
     print(os.system('find ../www/cgi-test2.php'))
