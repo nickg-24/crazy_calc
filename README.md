@@ -6,6 +6,8 @@ Please use this read me file for the information required to be submitted per th
 - [.] loop the recv so that all content is captured
 - [.] add https
 - [ ] check content type for post
-- [ ] set up php cgi on vm
-- [ ] handle get params
-- [ ] handle post params
+- [.] set up php cgi on vm
+- [.] handle get params
+- [.] handle post params
+- [ ] exploit the server (RCE, LFI)
+- [ ] make xss possible
