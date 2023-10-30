@@ -91,6 +91,13 @@ def validate(req_str):
                 has_content_length = True
                 # print("has_content_length",has_content_length) # testing
 
+            '''This part is broken 
+            # make sure that post requests are www-form-urlencoded
+            if head_name.strip().lower() == "content-type":
+                if head_value != "application/x-www-form-urlencoded" and method == "POST":            
+                    return 415
+            '''
+
             # check that head_name has no spaces
             for char in head_name:
                 if char.isspace():
@@ -98,6 +105,7 @@ def validate(req_str):
         # make sure that post requests have a content length set
         if method == "POST" and not has_content_length:
             return 411
+        
         # return status code 200, the method, and the uri
         return 200, method, uri, body
     

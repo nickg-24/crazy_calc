@@ -180,6 +180,7 @@ def format_response(status_code, content="", location=None):
         403: ("Forbidden", "<h1>403 Error: Forbidden</h1>"),
         404: ("Not Found", "<h1>404 Error: Resource Not Found</h1>"),
         411: ("Length Required", "<h1>411 Error: Length Required</h1>"),
+        415: ("Unsupported Media Type", "<h1>415 Error: Unsupported Media Type</h1>"),
         500: ("Internal Server Error", "<h1> 500 Error: Internal Server Error</h1>"),
         501: ("Not Implemented", "<h1>501 Error: Method Not Implemented</h1>"),
         505: ("HTTP Version Not Supported", "<h1>505 Error: HTTP Version Not Supported</h1>")
