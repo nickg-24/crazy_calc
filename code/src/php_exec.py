@@ -33,14 +33,15 @@ echo "test=1" | php-cgi
 
 # sets up the environment variables 
 def execute_php(method: str, script_filename: str, query_string: str="", post_body: str=""):
+    relative_path = server.DOCUMENT_ROOT + '/' +script_filename
     # gets absolute path of php script
-    script_path = os.path.abspath("../www/cgi-test2.php")
+    abs_path = os.path.abspath(relative_path)
 
     # sets up GET env variables seen above
     if method == "GET":
         env = {
             'QUERY_STRING' : query_string,
-            'SCRIPT_FILENAME' : script_path,
+            'SCRIPT_FILENAME' : abs_path,
             'REQUEST_METHOD' : method,
             'REDIRECT_STATUS' : '0'
         }
@@ -48,7 +49,7 @@ def execute_php(method: str, script_filename: str, query_string: str="", post_bo
     if method == "POST":
         env = {
             'REDIRECT_STATUS' : '0',
-            'SCRIPT_FILENAME' : script_path,
+            'SCRIPT_FILENAME' : abs_path,
             'REQUEST_METHOD' : 'POST',
             'GATEWAY_INTERFACE' : 'CGI/1.1',
             'CONTENT_TYPE' : 'application/x-www-form-urlencoded'
@@ -71,27 +72,31 @@ def execute_php(method: str, script_filename: str, query_string: str="", post_bo
     else:
         stdout_data, stderr_data = proc.communicate()
     #print(env)
-    print(stdout_data)
+    
+    # print(stdout_data)
 
+    # split stdout on \r\n\r\n , second part is the result
+    output = stdout_data.decode().split('\r\n\r\n')[1]
+    return output
 
 def test_php_execution():
-    script_path = os.path.abspath("../www/cgi-test2.php")
+    script_path = "hello.php"
     
     # Test GET Request
-    query_string = "param1=value1&param2=value2"
+    query_string = "name=Nick"
     print("Testing GET request:")
-    execute_php("GET", script_path, query_string)
+    print(execute_php("GET", script_path, query_string))
     
     # Test POST Request
     post_body = "param1=value1&param2=value2"
     print("Testing POST request:")
-    execute_php("POST", script_path, post_body=post_body)
+    print(execute_php("POST", script_path, post_body=post_body))
 
 # for testing
 def main():
-    execute_php("GET","../www/cgi-test2.php","<parameter1>=<value1>&<parameter2>=<value2>&<parameterN>=<valueN>")
+    #execute_php("GET","../www/cgi-test2.php","<parameter1>=<value1>&<parameter2>=<value2>&<parameterN>=<valueN>")
 
-    #test_php_execution()
+    test_php_execution()
 
 if __name__ == "__main__":
     main()

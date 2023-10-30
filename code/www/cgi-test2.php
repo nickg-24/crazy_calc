@@ -4,7 +4,7 @@
     echo "Redirect Status: " . $_SERVER['REDIRECT_STATUS'] . "\n";
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        echo "GET Parameters: \n";
+        echo  "GET Parameters: \n";
         var_dump($_GET);
     } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "POST Parameters: \n";

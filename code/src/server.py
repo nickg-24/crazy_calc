@@ -7,6 +7,7 @@ import parser_1 # for the parser function
 import os
 import subprocess
 import datetime
+import php_exec # for php functionality
 
 methods = ["GET", "POST", "PUT", "DELETE"]
 httpVersions = ["HTTP/1.1", "HTTP/1.0"]
@@ -83,14 +84,23 @@ def get_req(uri):
     parts = uri.split("?", 1)
     path = parts[0]
     params= parts[1] if len(parts) > 1 else None
-    print("GET PARAMS:", params)
+    # print("GET PARAMS:", params)
     
     # handle document route
     sys_path = DOCUMENT_ROOT + path
 
     # check if file exists
     if os.path.isfile(sys_path):
-        return file_read(sys_path), 200
+        # Check if the requested file is a PHP file
+        if sys_path.endswith(".php"):
+            try:
+                content = php_exec.execute_php("GET", sys_path, query_string=params)
+                return content, 200
+            except Exception as e:
+                print("Error executing PHP script:", e)
+                return "", 500
+        else:
+            return file_read(sys_path), 200
     else:
         return "", 404
 
@@ -104,11 +114,20 @@ def post_req(uri, body):
     # handle document route
     sys_path = DOCUMENT_ROOT + path
 
-    # check if the file exists
+     # check if the file exists
     if os.path.isfile(sys_path):
-        content = file_read(sys_path)
-        status_code = 200
-        return content, status_code
+        # check if the requested file is a php file
+        if sys_path.endswith(".php"):
+            try:
+                content = php_exec.execute_php("POST", sys_path, post_body=body)
+                return content, 200
+            except Exception as e:
+                print("Error executing PHP script:", e)
+                return "", 500
+        else:
+            content = file_read(sys_path)
+            status_code = 200
+            return content, status_code
     else:
         return "", 404
 
