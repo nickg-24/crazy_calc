@@ -3,11 +3,11 @@ Please use this read me file for the information required to be submitted per th
 
 
 ### To Do
-- [ ] loop the recv so that all content is captured
-- [ ] add https
+- [x] loop the recv so that all content is captured
+- [x] add https
 - [ ] check content type for post
-- [ ] set up php cgi on vm
-- [ ] handle get params
-- [ ] handle post params
+- [x] set up php cgi on vm
+- [x] handle get params
+- [x] handle post params
 - [ ] exploit the server (RCE, LFI)
 - [ ] make xss possible
