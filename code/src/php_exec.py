@@ -70,23 +70,28 @@ def execute_php(method: str, script_filename: str, query_string: str="", post_bo
         stdout_data, stderr_data = proc.communicate(input=post_body.encode())
     else:
         stdout_data, stderr_data = proc.communicate()
-    print(env)
+    #print(env)
     print(stdout_data)
+
+
+def test_php_execution():
+    script_path = os.path.abspath("../www/cgi-test2.php")
+    
+    # Test GET Request
+    query_string = "param1=value1&param2=value2"
+    print("Testing GET request:")
+    execute_php("GET", script_path, query_string)
+    
+    # Test POST Request
+    post_body = "param1=value1&param2=value2"
+    print("Testing POST request:")
+    execute_php("POST", script_path, post_body=post_body)
 
 # for testing
 def main():
-    '''SOLUTION 1'''
-    # # get the abs path of the target script
-    # script_path = os.path.abspath("../www/cgi-test2.php")
-    # execute_php("GET",script_path,"<parameter1>=<value1>&<parameter2>=<value2>&<parameterN>=<valueN>")
-
-    '''SOLUTION 2'''
     execute_php("GET","../www/cgi-test2.php","<parameter1>=<value1>&<parameter2>=<value2>&<parameterN>=<valueN>")
 
-    # execute_php("GET","../www/cgi-test2.php","<parameter1>=<value1>&<parameter2>=<value2>&<parameterN>=<valueN>")
-    print(os.system('pwd'))
-    print(os.system('ls ../www'))
-    print(os.system('find ../www/cgi-test2.php'))
+    #test_php_execution()
 
 if __name__ == "__main__":
     main()
