@@ -126,3 +126,6 @@
 2023-10-31 16:29:21.576088 : GET /badfile.txt HTTP/1.1
 2023-10-31 16:29:54.156621 : GET /hello.php?filename=badfile&content=bad%3B+ls+%2Fetc HTTP/1.1
 2023-10-31 16:32:04.070796 : GET /hello.php?name=%3Cscript%3Ewindow.location.href%3D%27https%3A%2F%2Fwww.google.com%27%3C%2Fscript%3E HTTP/1.1
+2023-10-31 16:41:06.028874 : GET /hello-world.html HTTP/1.1
+2023-10-31 16:41:08.161144 : GET /hello-world.html HTTP/1.1
+2023-10-31 16:41:32.956495 : GET /test.css HTTP/1.1
