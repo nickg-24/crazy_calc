@@ -10,4 +10,5 @@ Please use this read me file for the information required to be submitted per th
 - [x] handle get params
 - [x] handle post params
 - [ ] exploit the server (RCE, LFI)
-- [ ] make xss possible
+- [x] make xss possible
+- [ ] address hardcoded content-type (text/html)

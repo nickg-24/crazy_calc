@@ -98,3 +98,5 @@
 2023-10-29 23:59:40.504480 : GET /hello-world.html HTTP/1.1
 2023-10-30 00:00:03.398619 : POST /hello.php HTTP/1.1
 2023-10-30 00:00:28.634264 : POST /hello.php HTTP/1.1
+2023-10-31 15:06:30.083386 : GET /hello-world.html HTTP/1.1
+2023-10-31 15:08:24.227876 : GET /hello.php?name=%3Cscript%3Ealert%281%29%3C%2Fscript%3E HTTP/1.1
