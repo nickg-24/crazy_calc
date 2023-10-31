@@ -189,7 +189,8 @@ def format_response(status_code, content="", location=None):
     response_message, response_body = responses[status_code]
     response_headers = [
         f"HTTP/1.1 {status_code} {response_message}",
-        f"Content-Length: {len(response_body)}"
+        f"Content-Length: {len(response_body)}",
+        "Content-Type: text/html"
     ]
 
     if location:
