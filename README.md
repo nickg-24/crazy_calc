@@ -12,3 +12,5 @@ Please use this read me file for the information required to be submitted per th
 - [ ] exploit the server (RCE, LFI)
 - [x] make xss possible
 - [ ] address hardcoded content-type (text/html)
+- [ ] give web app a theme
+- [ ] build vulnerabilities into app
