@@ -9,8 +9,8 @@ Please use this read me file for the information required to be submitted per th
 - [x] set up php cgi on vm
 - [x] handle get params
 - [x] handle post params
-- [ ] exploit the server (RCE, LFI)
+- [x] exploit the server (RCE, XSS)
 - [x] make xss possible
 - [ ] address hardcoded content-type (text/html)
-- [ ] give web app a theme
-- [ ] build vulnerabilities into app
+- [x] give web app a theme (crazy calculatorz)
+- [x] build vulnerabilities into app

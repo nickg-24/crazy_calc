@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crazy Calculatorz</title>
+</head>
+<body>
+    <h1>Crazy Calculatorz LLC</h1>
+    <p>Crazy about calulating? You came to the right place. Enter your name and calculation below:</p>
+    <form method="post" action="calc.php">
+        <input type="text" name="visitor_name" required="required" placeholder="Enter Name"/> <br><br>
+
+        <input type="text" name="number1" required="required" />
+        <select name="operation">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+        <input type="text" name="number2" required="required" />
+        <input type="submit" value="Calculate" />
+    </form>
+</body>
+</html>
