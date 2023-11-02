@@ -14,3 +14,4 @@ Please use this read me file for the information required to be submitted per th
 - [ ] address hardcoded content-type (text/html)
 - [x] give web app a theme (crazy calculatorz)
 - [x] build vulnerabilities into app
+- [ ] maybe make logging better
