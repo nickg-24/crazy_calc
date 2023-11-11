@@ -16,4 +16,3 @@ Please use this read me file for the information required to be submitted per th
 - [x] build vulnerabilities into app
 - [ ] maybe make logging better
 - [ ] write vulnerability report
-- [ ] try to get a reverse proxy
