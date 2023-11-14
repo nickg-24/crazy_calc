@@ -1,24 +1,13 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromiumService
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.core.os_manager import ChromeType
 
-# Set Chrome options
-chrome_options = Options()
-chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--disable-dev-shm-usage")
+# Specify the executable directly since it's in the same directory
+driver = webdriver.Chrome('./chromedriver-linux64/chromedriver')
 
-# Initialize the Chrome driver
-driver = webdriver.Chrome(service=ChromiumService(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()), options=chrome_options)
+# Navigate to a webpage
+driver.get('https://www.python.org')
 
-def get_whole_page():
-    # Navigate to page
-    driver.get("https://www.google.com")
+# Example action: print the title of the page
+print(driver.title)
 
-    page_content = driver.page_source
-
-    print(page_content)
-    driver.quit()
-
-get_whole_page()
+# Quit the driver to close the browser
+driver.quit()
