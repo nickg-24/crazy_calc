@@ -17,3 +17,4 @@ Please use this read me file for the information required to be submitted per th
 - [ ] maybe make logging better
 - [ ] write vulnerability report
 - [ ] automate exploit
+- [ ] figure out the http vs https situation
