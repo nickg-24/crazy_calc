@@ -9,7 +9,7 @@ driver = webdriver.Chrome()
 # Get the page
 driver.get("http://localhost/calculator.html")
 
-visitor_name = driver.find_element(By.NAME, "visitor_name").send_keys('<script>alert(1)</script>')
+visitor_name = driver.find_element(By.NAME, "visitor_name").send_keys("<script>window.location.href='https://owasp.org/www-community/attacks/xss/'</script>")
 number1 = driver.find_element(By.NAME, "number1").send_keys('1')
 number2 = driver.find_element(By.NAME, "number2").send_keys('2')
 
