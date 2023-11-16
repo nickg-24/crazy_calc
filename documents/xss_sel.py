@@ -20,13 +20,9 @@ driver.find_element(By.ID, 'submit_button').click()
 # Wait for the redirect to occur and the new page to load
 try:
     WebDriverWait(driver, 10).until(EC.url_to_be("https://owasp.org/www-community/attacks/xss/"))
-    print("Page redirected to OWASP successfully.")
+    print("Page redirected to OWASP. XSS attack successful.")
 except TimeoutError:
     print("Page did not redirect to OWASP in the expected time.")
-
-# Get the page source
-page_source = driver.page_source
-print(page_source)
 
 # Quit the web driver
 driver.quit()
