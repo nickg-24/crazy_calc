@@ -5,7 +5,6 @@ Please use this read me file for the information required to be submitted per th
 ### Have To Do
 - [x] loop the recv so that all content is captured
 - [x] add https
-- [ ] check content type for post (fix is currently broken in ![parser_1.py](./code/src/parser_1.py))
 - [x] set up php cgi on vm
 - [x] handle get params
 - [x] handle post params
@@ -17,6 +16,7 @@ Please use this read me file for the information required to be submitted per th
 - [x] figure out the http vs https situation
 - [ ] write vulnerability report
 
-### Nice To Do
+### Prob Should Do
 - [ ] address hardcoded content-type (text/html)
 - [ ] maybe make logging better
+- [ ] check content type for post (fix is currently broken in ![parser_1.py](./code/src/parser_1.py))
