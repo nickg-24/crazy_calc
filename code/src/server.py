@@ -15,6 +15,10 @@ schemes = ["http", "https"]
 DOCUMENT_ROOT = "../www"
 LOG_FILE = "../logs/valid_requests.log"
 ERROR_LOG = "../logs/internal_errors.log"
+CERT_FILE = "../ssl/certificate.pem"
+KEY_FILE = "../ssl/private_key.pem"
+
+
 
 # recieves request and sends response to client
 def handle_client(client_socket):
@@ -216,45 +220,48 @@ def send_full_data(sock, data):
 
 def main():
     if len(sys.argv) < 3:
-        print("Usage: server.py <ip> <port> [cert_path] [key_path]")
+        print("Usage: server.py <ip> <http_port>")
         sys.exit(1)
 
     ip_addr = sys.argv[1]
-    port = int(sys.argv[2])
-    print(f'{ip_addr}:{port}')  # debug comment
+    http_port = int(sys.argv[2])
+    https_port = 443  # Fixed port for HTTPS
 
-    cert_path = None
-    pk_path = None
-    if len(sys.argv) >= 4:
-        cert_path = sys.argv[3]
-    if len(sys.argv) == 5:
-        pk_path = sys.argv[4]
-    elif len(sys.argv) == 4 and not pk_path:
-        print("Error: Cert path provided without private key path.")
-        sys.exit(1)
+    print(f'HTTP server listening at {ip_addr}:{http_port}')
+    print(f'HTTPS server listening at {ip_addr}:{https_port}')
 
-    is_https = bool(cert_path and pk_path)
-    print("is https=", is_https)  # debug comment
+    # Create sockets
+    http_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    http_socket.bind((ip_addr, http_port))
+    http_socket.listen(5)
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((ip_addr, port))
-    s.listen(5)
+    https_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    https_socket.bind((ip_addr, https_port))
+    https_socket.listen(5)
 
-    if is_https:
-        context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-        context.load_cert_chain(certfile=cert_path, keyfile=pk_path)
+    # SSL context for HTTPS
+    context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    context.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
 
-    while True:
-        client, address = s.accept()
-        if is_https:
-            try:
-                client = context.wrap_socket(client, server_side=True)
-            except ssl.SSLError:
-                print("SSL error occurred. Perhaps an HTTP client tried connecting to HTTPS server?")
-                client.close()
-                continue
-        client_handler = threading.Thread(target=handle_client, args=(client,))
-        client_handler.start()
+    def accept_loop(socket, context=None):
+        while True:
+            client, address = socket.accept()
+            if context:
+                try:
+                    client = context.wrap_socket(client, server_side=True)
+                except ssl.SSLError:
+                    print("SSL error occurred. Perhaps an HTTP client tried connecting to HTTPS server?")
+                    client.close()
+                    continue
+            client_handler = threading.Thread(target=handle_client, args=(client,))
+            client_handler.start()
+
+    # Start threads for HTTP and HTTPS
+    http_thread = threading.Thread(target=accept_loop, args=(http_socket,))
+    http_thread.start()
+
+    https_thread = threading.Thread(target=accept_loop, args=(https_socket, context))
+    https_thread.start()
 
 if __name__ == '__main__':
     main()
