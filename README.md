@@ -2,19 +2,21 @@
 Please use this read me file for the information required to be submitted per the assignment on MyCourses.
 
 
-### To Do
+### Have To Do
 - [x] loop the recv so that all content is captured
 - [x] add https
-- [ ] check content type for post
+- [ ] check content type for post (fix is currently broken in ![parser_1.py](./code/src/parser_1.py))
 - [x] set up php cgi on vm
 - [x] handle get params
 - [x] handle post params
 - [x] exploit the server (RCE, XSS)
 - [x] make xss possible
-- [ ] address hardcoded content-type (text/html)
 - [x] give web app a theme (crazy calculatorz)
 - [x] build vulnerabilities into app
-- [ ] maybe make logging better
+- [x] automate exploit
+- [x] figure out the http vs https situation
 - [ ] write vulnerability report
-- [ ] automate exploit
-- [ ] figure out the http vs https situation
+
+### Nice To Do
+- [ ] address hardcoded content-type (text/html)
+- [ ] maybe make logging better
