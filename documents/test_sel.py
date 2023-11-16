@@ -25,4 +25,3 @@ print(page_source)
 
 # Quit the web driver
 driver.quit()
-

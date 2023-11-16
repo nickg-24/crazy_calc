@@ -1,8 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-
-
 # Create a WebDriver instance using Chrome
 driver = webdriver.Chrome()
 
