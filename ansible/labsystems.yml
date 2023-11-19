@@ -1,0 +1,7 @@
+[lab]
+192.168.109.131
+
+[lab:vars]
+ansible_user=webserv731
+ansible_password={{ vault_password }}
+ansible_become_password={{ vault_become_password }}

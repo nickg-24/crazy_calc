@@ -1,0 +1,5 @@
+---
+# tasks file for conntest
+- name: Test Connection
+  ping:
+

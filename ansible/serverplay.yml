@@ -1,0 +1,22 @@
+---
+- hosts: lab
+  vars_files: passwords
+  gather_facts: no
+  tasks:
+  - name: test connectivity
+    ping:
+
+  - name: check username (unpriv)
+    register: unprivoutput
+    shell: |
+      whoami
+  
+  - name: check username (priv)
+    register: privoutput
+    become: yes
+    shell: |
+      whoami
+
+  - debug: var=unprivoutput
+  - debug: var=privoutput
+    

@@ -1,0 +1,25 @@
+---
+# tasks file for webserver
+
+- name: Install Dependencies
+  become: yes
+  apt:
+    update_cache: yes
+    name:
+      - python3
+      - php-cgi
+      - systemd
+    state: present
+
+- name: Copy Source Code
+  become: yes
+  copy:
+    src: code
+    dest: /etc/crazycalculatorz/code
+
+# TODO: use systemd to make sure that my server.py runs as a service, each time the server reboots
+#following line demonstrates example execution:
+# $ sudo python3 code/src/server.py 80 0.0.0.0
+
+# restart the the service that corresonds to my server.py script
+
