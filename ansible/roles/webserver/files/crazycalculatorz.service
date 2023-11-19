@@ -3,7 +3,8 @@ Description=Server for Crazy Calculatorz
 After=multi-user.target
 
 [Service]
-ExecStart=/usr/bin/python3 /etc/crazycalculatorz/code/src/server.py 80 0.0.0.0
+ExecStart=/usr/bin/python3 /etc/crazycalculatorz/src/server.py 0.0.0.0 80
+WorkingDirectory=/etc/crazycalculatorz/code
 Restart=always
 User=root
 

@@ -14,12 +14,21 @@
 - name: Copy Source Code
   become: yes
   copy:
-    src: code
-    dest: /etc/crazycalculatorz/code
+    src: code/
+    dest: /etc/crazycalculatorz/
 
-# TODO: use systemd to make sure that my server.py runs as a service, each time the server reboots
-#following line demonstrates example execution:
-# $ sudo python3 code/src/server.py 80 0.0.0.0
+- name: Copy systemd Service File
+  become: yes
+  copy:
+    src: crazycalculatorz.service
+    dest: /etc/systemd/system/crazycalculatorz.service
+    mode: '0644'
 
-# restart the the service that corresonds to my server.py script
+- name: Enable and Start server.py service
+  become: yes
+  systemd:
+    name: crazycalculatorz
+    enabled: yes
+    state: started
+    daemon_reload: yes
 
