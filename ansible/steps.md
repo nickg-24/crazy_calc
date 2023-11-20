@@ -16,3 +16,7 @@ dest: /etc/crazycalculators/code
 
 6. execute code/src/server.py
 python3 server.py 80 0.0.0.0
+
+# To deploy(in 'ansible' dir):
+Vault Pass: vaultpass
+$ ansible-playbook -i labsystems.yml --ask-vault-pass roleserver.yml
