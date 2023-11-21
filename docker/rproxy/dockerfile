@@ -1,0 +1,8 @@
+# pulls httpd container from dockerhub
+FROM httpd:2.4
+# updates and installs openssl. Creates a key
+RUN apt update
+RUN apt install openssl
+RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out /usr/local/apache2/conf/server.crt -keyout /usr/local/apache2/conf/server.key -subj "/C=US/ST=NY/L=Rochester/O=RIT/OU=CSEC731/CN=www.crazycalculatorz.com"
+# container listens on port 443
+EXPOSE 443
