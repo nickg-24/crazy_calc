@@ -3,8 +3,6 @@ version: '3'
 services:
   webserv:
     build: ./webserv
-    ports:
-      - "80:80"
     networks:
       internal_corp:
         ipv4_address: 10.0.1.5
