@@ -4,24 +4,22 @@ services:
   webserv:
     build: ./webserv
     networks:
-      internal_corp:
-        ipv4_address: 10.0.1.5
+      proxynet:
+        ipv4_address: 172.16.1.2
 
   rproxy:
     build: ./rproxy
     volumes:
       - ./rproxy/httpd.conf:/usr/local/apache2/conf/httpd.conf
     ports:
-      - 443:8443
+      - 443:443
     networks:
-        internal_corp:
-          ipv4_address: 10.0.1.10
+        proxynet:
+          ipv4_address: 172.16.1.3
 
 
 networks:
-  internal_corp:
-    driver: bridge
+  proxynet:
     ipam:
-      driver: default
       config:
-        - subnet: 10.0.1.0/24
+        - subnet: 172.16.1.0/24
