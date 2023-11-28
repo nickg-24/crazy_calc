@@ -15,11 +15,11 @@ Please use this read me file for the information required to be submitted per th
 - [x] automate exploit
 - [x] figure out the http vs https situation
 - [ ] write vulnerability report
-- [ ] Deploy via Ansible
-- [ ] dockerized server container
-- [ ] https reverse proxy
-- [ ] modsec proxy
-- [ ] load balancer
+- [x] Deploy via Ansible
+- [x] dockerized server container
+- [x] https reverse proxy
+- [x] modsec proxy
+
 
 ### Prob Should Do
 - [ ] address hardcoded content-type (text/html)
