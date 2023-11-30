@@ -14,15 +14,15 @@ Please use this read me file for the information required to be submitted per th
 - [x] build vulnerabilities into app
 - [x] automate exploit
 - [x] figure out the http vs https situation
-- [ ] write vulnerability report
+- [x] write vulnerability report
 - [x] Deploy via Ansible
 - [x] dockerized server container
 - [x] https reverse proxy
 - [x] modsec proxy
-- [ ] add readme for code folder
-- [ ] update vulnerability report xss payload
-- [ ] add requirements.txt (put it in code or documents?)
-- [ ] add ansible readme
+- [x] add readme for code folder
+- [x] update vulnerability report xss payload
+- [x] add requirements.txt (put it in code or documents?)
+- [x] add ansible readme
 
 
 ### Prob Should Do
