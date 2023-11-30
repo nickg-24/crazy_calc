@@ -268,3 +268,13 @@
 2023-11-16 12:19:44.192723 : GET /favicon.ico HTTP/1.1
 2023-11-16 12:19:48.294542 : GET /calculator.html HTTP/1.1
 2023-11-16 12:21:12.789362 : POST /calc.php HTTP/1.1
+2023-11-30 16:33:26.104312 : GET / HTTP/1.1
+2023-11-30 16:33:26.324671 : GET /favicon.ico HTTP/1.1
+2023-11-30 16:33:42.792060 : GET /cgi-test.php HTTP/1.1
+2023-11-30 16:33:50.159725 : GET /cgi-test2.php HTTP/1.1
+2023-11-30 16:34:36.629410 : GET /calc2.php HTTP/1.1
+2023-11-30 16:35:13.061256 : GET /calc2.php?visitor_name=nick&number1=1&operation=+&number2=1 HTTP/1.1
+2023-11-30 16:35:44.787758 : GET /hello_world.php HTTP/1.1
+2023-11-30 16:35:50.109320 : GET /hello_world.html HTTP/1.1
+2023-11-30 16:35:57.844674 : GET /hello-world.html HTTP/1.1
+2023-11-30 16:36:08.796394 : GET /hello.php?name=Nick HTTP/1.1

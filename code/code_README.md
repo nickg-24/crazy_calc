@@ -31,3 +31,6 @@ Complete HTTP requests will be outputted to the terminal. Valid requests to the 
 
 ### Shut Down
 There is no graceful shutdown method at this time. Exit the server process by pressing ``Ctrl + C``.
+
+### Rubric
+The ![hello-world.html](./www/hello-world.html) webpage allows you to quickly test GET and POST form submissions for ease of grading.
