@@ -6,3 +6,4 @@ Please use this read me file for the information required to be submitted per th
 - ![Code Documentation](./code/code_README.md)
 - ![Docker Documentation](./docker/docker_README.md)
 - ![Vulnerability Report](./documents/vulnerability_report.md)
+- ![Risk Assessment](./documents/Crazy_Calculatorz_Risk_Assesment.pdf)
