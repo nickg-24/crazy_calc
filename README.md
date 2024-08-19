@@ -5,8 +5,11 @@ Crazy Calculatorz is a custom-built, intentionally vulnerable web server designe
 
 The application was developed using raw socket programming and a self-written HTTP parser. It was then containerized using Docker and deployed automatically via Ansible. A comprehensive security analysis was conducted, including detailed documentation of the vulnerabilities present within the application.
 
-## Important Disclaimer
-**This application contains intentionally built vulnerabilities and is highly insecure.** It should only be used in a controlled environment for educational purposes. Do not deploy this application on a production server or expose it to the internet, as it poses a significant security risk.
+## Important Disclaimers
+- **This application contains intentionally built vulnerabilities and is highly insecure.** It should only be used in a controlled environment for educational purposes. Do not deploy this application on a production server or expose it to the internet, as it poses a significant security risk.
+
+- **SSL Keys:** The SSL private keys and certificates included in this repository are intentionally provided for the purpose of this educational project. These keys should only be used within the context of this project and should not be used in any other application or environment. Use of these keys in any other context may pose serious security risks.
+
 
 ## Project Documentation
 - [Ansible Documentation](./ansible/ansible_README.md)
